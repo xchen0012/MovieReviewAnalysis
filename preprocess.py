@@ -2,6 +2,7 @@ import pandas as pd
 import time
 import re
 import nltk
+import csv
 from nltk.corpus import stopwords
 from bs4 import BeautifulSoup
 
@@ -26,6 +27,7 @@ def preprocessData (filename):
 	#example1 = BeautifulSoup(train["review"][0], "html.parser")
 
 	clean_train_reviews = [];
+	f = open('data.csv', 'w+');
 
 	for i, review in enumerate(train["review"]):
 		if (i + 1) % 1000 == 0:
@@ -33,7 +35,8 @@ def preprocessData (filename):
 
 		text = BeautifulSoup(review, "html.parser");
 		review = preprocessText(text.get_text());
-		clean_train_reviews.append(review);
+		f.write(train["id"][i] + ",\t" + str(train["sentiment"][i]) + ",\t"
+				+ "\"" + review + "\"\n")
 
 	return train; 
 
